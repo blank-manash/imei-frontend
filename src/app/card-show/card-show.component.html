@@ -1,0 +1,22 @@
+<div class="show-box">
+  <mat-card>
+    <mat-form-field appearance="outline">
+      <mat-label>IMEI Number</mat-label>
+      <input
+        matInput
+        placeholder="Enter Your 15 Digit IMEI Number"
+        [formControl]="imeiNum"
+      />
+      <mat-error *ngIf="imeiNum.invalid">{{ getErrorMessage() }}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ this.correctedNum }}</mat-label>
+      <input matInput placeholder="" disabled />
+    </mat-form-field>
+  </mat-card>
+  <mat-progress-bar
+    *ngIf="this.clicked"
+    mode="indeterminate"
+  ></mat-progress-bar>
+  <button mat-raised-button color="warn" (click)="onClick()">Submit</button>
+</div>
