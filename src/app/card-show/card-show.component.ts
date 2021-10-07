@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataService, Receiver } from '../data.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { DataService, Receiver } from '../data.service';
   styleUrls: ['./card-show.component.css'],
 })
 export class CardShowComponent implements OnInit {
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private sb : MatSnackBar) { }
   imeiNum = new FormControl('', this.validateNum);
   correctedNum = 'Input Not Processed';
   clicked: boolean = false;
@@ -45,9 +46,13 @@ export class CardShowComponent implements OnInit {
     this.dataService
       .getRequest(this.imeiNum.value)
       .subscribe((data: Receiver) => {
-        console.log(data);
         this.clicked = false;
         this.correctedNum = data.num.toString();
+        let message = 'Corrected IMEI';
+        if(data.already) {
+          message = 'IMEI is Correct';
+        }
+        this.sb.open(message, 'Dismiss');
       });
   }
 }
